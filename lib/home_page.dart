@@ -3,9 +3,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/hello_listview.dart';
 import 'package:flutter_application_1/pages/hello_page1.dart';
 import 'package:flutter_application_1/pages/hello_page2.dart';
 import 'package:flutter_application_1/pages/hello_page3.dart';
+import 'package:flutter_application_1/utils/nav.dart';
+import 'package:flutter_application_1/widgets/blue_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -36,30 +39,35 @@ _buttons(context) {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _button(context, "ListView",
-              () => _onClickNavigator(context, HelloPage1())),
-          _button(context, "Page 2",
-              () => _onClickNavigator(context, HelloPage2())),
-          _button(context, "Page 3",
-              () => _onClickNavigator(context, HelloPage3())),
+          BlueButton(
+            "ListView",
+            onPressed: () => _onClickNavigator(context, HelloListView()),
+            color: Colors.red,
+          ),
+          BlueButton(
+            "Page 2",
+            onPressed: () => _onClickNavigator(context, HelloPage2()),
+          ),
+          BlueButton(
+            "Page 3",
+            onPressed: () => _onClickNavigator(context, HelloPage3()),
+          ),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _button(context, "Snack", _onClickSnack),
-          _button(context, "Dialog", _onClickDialog),
-          _button(context, "Toast", _onClickToast)
+          BlueButton("Snack", onPressed: _onClickSnack),
+          BlueButton("Dialog", onPressed: _onClickDialog),
+          BlueButton("Toast", onPressed: _onClickToast)
         ],
       )
     ],
   );
 }
 
-void _onClickNavigator(BuildContext context, Widget page) {
-  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return page;
-  }));
+void _onClickNavigator(context, page) async {
+  String s = await push(context, page);
 }
 
 _onClickDialog() {}
@@ -70,47 +78,38 @@ _onClickSnack() {}
 
 _pageView() {
   return Container(
-      height: 300,
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      child: PageView(
-        children: <Widget>[
-          _img("assets/images/dog1.png"),
-          _img("assets/images/dog2.png"),
-          _img("assets/images/dog3.png"),
-          _img("assets/images/dog4.png"),
-          _img("assets/images/dog5.png"),
-        ],
-      ));
-}
-
-_button(context, String text, Function onPressed) {
-  return RaisedButton(
-      color: Colors.blue,
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-      onPressed: () => onPressed);
+    height: 300,
+    margin: EdgeInsets.only(top: 20, bottom: 20),
+    child: PageView(
+      children: <Widget>[
+        _img("assets/images/dog1.png"),
+        _img("assets/images/dog2.png"),
+        _img("assets/images/dog3.png"),
+        _img("assets/images/dog4.png"),
+        _img("assets/images/dog5.png"),
+      ],
+    ),
+  );
 }
 
 _img(String img) {
   return Image.asset(
     img,
-    width: 300,
-    height: 300,
-    fit: BoxFit.contain,
+    fit: BoxFit.cover,
   );
 }
 
 _text() {
-  return Text('Hello World!',
-      style: TextStyle(
-        fontSize: 30,
-        color: Colors.blue,
-        fontWeight: FontWeight.bold,
-        fontStyle: FontStyle.italic,
-        decoration: TextDecoration.underline,
-        decorationColor: Colors.red,
-        decorationStyle: TextDecorationStyle.dotted,
-      ));
+  return Text(
+    'Hello World!',
+    style: TextStyle(
+      fontSize: 30,
+      color: Colors.blue,
+      fontWeight: FontWeight.bold,
+      fontStyle: FontStyle.italic,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.red,
+      decorationStyle: TextDecorationStyle.dotted,
+    ),
+  );
 }
